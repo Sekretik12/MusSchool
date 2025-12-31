@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MusSchool - Расписание</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        }
+
+        body {
+
+            background: linear-gradient(135deg, #fff5f7 0%, #ffeef2 100%);
+
+            color: #5a2d43;
+
+            min-height: 100vh;
+
+            padding: 20px;
+
+        }
+
+        .container {
+
+            max-width: 1000px;
+
+            margin: 0 auto;
+
+            padding: 20px;
+
+        }
+
+        header {
+
+            text-align: center;
+
+            margin-bottom: 40px;
+
+            padding: 25px;
+
+            background: linear-gradient(to right, #f8bbd9, #f48fb1);
+
+            border-radius: 20px;
+
+            box-shadow: 0 10px 25px rgba(244, 143, 177, 0.25);
+
+            border: 2px solid #f06292;
+
+        }
+
+        .logo {
+
+            font-size: 2.8rem;
+
+            margin-bottom: 10px;
+
+            color: #880e4f;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 15px;
+
+        }
+
+        .logo i {
+
+            color: #d81b60;
+
+        }
+
+        .subtitle {
+
+            font-size: 1.2rem;
+
+            color: #ad1457;
+
+            font-weight: 500;
+
+        }
+
+        .week-navigation {
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-bottom: 40px;
+
+        }
+
+        .day-btn {
+
+            padding: 15px 25px;
+
+            background-color: #fce4ec;
+
+            border: 2px solid #f8bbd9;
+
+            border-radius: 15px;
+
+            font-size: 1.1rem;
+
+            font-weight: 600;
+
+            color: #880e4f;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+
+            flex: 1;
+
+            min-width: 120px;
+
+            max-width: 140px;
+
+            text-align: center;
+
+        }
+
+        .day-btn:hover {
+
+            background-color: #f8bbd9;
+
+            transform: translateY(-5px);
+
+            box-shadow: 0 7px 15px rgba(244, 143, 177, 0.4);
+
+        }
+
+        .day-btn.active {
+
+            background: linear-gradient(to right, #ec407a, #f06292);
+
+            color: white;
+
+            border-color: #d81b60;
+
+            box-shadow: 0 5px 15px rgba(236, 64, 122, 0.5);
+
+        }
+
+        .schedule-container {
+
+            background-color: white;
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            box-shadow: 0 15px 35px rgba(244, 143, 177, 0.2);
+
+            border: 2px solid #f8bbd9;
+
+            margin-bottom: 30px;
+
+            min-height: 450px;
+
+        }
+
+        .day-title {
+
+            text-align: center;
+
+            font-size: 2.2rem;
+
+            color: #ad1457;
+
+            margin-bottom: 30px;
+
+            padding-bottom: 15px;
+
+            border-bottom: 3px dashed #f8bbd9;
+
+        }
+
+        .schedule-table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+        .schedule-table th {
+
+            background-color: #fce4ec;
+
+            padding: 18px 15px;
+
+            text-align: left;
+
+            color: #880e4f;
+
+            font-size: 1.2rem;
+
+            border-bottom: 3px solid #f8bbd9;
+
+        }
+
+        .schedule-table td {
+
+            padding: 18px 15px;
+
+            border-bottom: 1px solid #fce4ec;
+
+            color: #5a2d43;
+
+            font-size: 1.1rem;
+
+        }
+
+        .schedule-table tr:hover {
+
+            background-color: #fff5f7;
+
+        }
+
+        .time-cell {
+
+            font-weight: 600;
+
+            color: #d81b60;
+
+            width: 25%;
+
+        }
+
+        .teacher-cell {
+
+            color: #ad1457;
+
+            font-weight: 500;
+
+            width: 35%;
+
+        }
+
+        .subject-cell {
+
+            width: 40%;
+
+        }
+
+        .note-badge {
+
+            display: inline-block;
+
+            background-color: #fce4ec;
+
+            padding: 5px 12px;
+
+            border-radius: 20px;
+
+            margin-top: 5px;
+
+            font-size: 0.9rem;
+
+            color: #ad1457;
+
+            font-weight: 500;
+
+        }
+
+        .footer-note {
+
+            text-align: center;
+
+            color: #ad1457;
+
+            font-style: italic;
+
+            padding: 15px;
+
+            background-color: #fce4ec;
+
+            border-radius: 15px;
+
+            font-size: 1rem;
+
+        }
+
+        /* Адаптивность для мобильных устройств */
+
+        @media (max-width: 768px) {
+
+            .day-btn {
+
+                min-width: 100px;
+
+                padding: 12px 15px;
+
+                font-size: 1rem;
+
+            }
+
+            .schedule-container {
+
+                padding: 20px;
+
+            }
+
+            .schedule-table th, 
+
+            .schedule-table td {
+
+                padding: 12px 8px;
+
+                font-size: 0.95rem;
+
+            }
+
+            .logo {
+
+                font-size: 2.2rem;
+
+            }
+
+            
+
+            .schedule-table {
+
+                display: block;
+
+                overflow-x: auto;
+
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .week-navigation {
+
+                gap: 8px;
+
+            }
+
+            .day-btn {
+
+                min-width: calc(50% - 10px);
+
+                max-width: none;
+
+            }
+
+            .container {
+
+                padding: 10px;
+
+            }
+
+            
+
+            .day-title {
+
+                font-size: 1.8rem;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+
+            <div class="logo">
+
+                <i class="fas fa-mosque"></i>
+
+                MusSchool
+
+                <i class="fas fa-book-open"></i>
+
+            </div>
+
+            <p class="subtitle">Расписание занятий на неделю</p>
+
+        </header>
+
+        <div class="week-navigation">
+
+            <button class="day-btn active" data-day="monday">Понедельник</button>
+
+            <button class="day-btn" data-day="tuesday">Вторник</button>
+
+            <button class="day-btn" data-day="wednesday">Среда</button>
+
+            <button class="day-btn" data-day="thursday">Четверг</button>
+
+            <button class="day-btn" data-day="friday">Пятница</button>
+
+            <button class="day-btn" data-day="saturday">Суббота</button>
+
+            <button class="day-btn" data-day="sunday">Воскресенье</button>
+
+        </div>
+
+        <div class="schedule-container">
+
+            <h2 class="day-title" id="current-day">Понедельник</h2>
+
+            <table class="schedule-table" id="schedule-table">
+
+                <!-- Расписание будет заполняться JavaScript -->
+
+            </table>
+
+        </div>
+
+        <div class="footer-note">
+
+            <i class="fas fa-info-circle"></i> Расписание может меняться. Следите за обновлениями в чате школы.
+
+        </div>
+
+    </div>
+
+    <script>
+
+        // Данные расписания для каждого дня недели
+
+        const scheduleData = {
+
+            monday: {
+
+                dayName: "Понедельник",
+
+                schedule: [
+
+                    { time: "12:00", subject: "Изучение Аллаха", teacher: "@Fa_timkaaa", note: "" },
+
+                    { time: "15:00", subject: "Кулинария", teacher: "@listik_aisha", note: "Раз в 2 недели" },
+
+                    { time: "17:00", subject: "Рукоделие", teacher: "@LOLA_ISLAMOV", note: "" },
+
+                    { time: "20:00", subject: "Арабский язык", teacher: "💞َعايْشَ", note: "" }
+
+                ]
+
+            },
+
+            tuesday: {
+
+                dayName: "Вторник",
+
+                schedule: [
+
+                    { time: "14:00", subject: "История Пророков", teacher: "@LOLA_ISLAMOV", note: "" },
+
+                    { time: "15:00", subject: "Математика", teacher: "@LOLA_ISLAMOV", note: "" },
+
+                    { time: "20:00", subject: "Математика", teacher: "@Fa_timkaaa", note: "" }
+
+                ]
+
+            },
+
+            wednesday: {
+
+                dayName: "Среда",
+
+                schedule: [
+
+                    { time: "15:00", subject: "Математика", teacher: "@LOLA_ISLAMOV", note: "" },
+
+                    { time: "16:00", subject: "Изучение Арабских Букв", teacher: "@Nazhm2", note: "" },
+
+                    { time: "17:00", subject: "Полезные Изделия Руками", teacher: "@LOLA_ISLAMOV", note: "" },
+
+                    { time: "19:20", subject: "Чтение книг", teacher: "@Nazhm2", note: "" }
+
+                ]
+
+            },
+
+            thursday: {
+
+                dayName: "Четверг",
+
+                schedule: [
+
+                    { time: "17:00", subject: "История пророков", teacher: "@safia07ak", note: "" },
+
+                    { time: "20:00", subject: "Поделки", teacher: "@maryamsadykova", note: "" }
+
+                ]
+
+            },
+
+            friday: {
+
+                dayName: "Пятница",
+
+                schedule: [
+
+                    { time: "14:00", subject: "Тасхих", teacher: "|~ زهرة ~|", note: "" },
+
+                    { time: "15:00", subject: "Рисование", teacher: "@Umm_Huruera", note: "" },
+
+                    { time: "16:00", subject: "Загадки", teacher: "@LOLA_ISLAMOV", note: "" },
+
+                    { time: "20:00", subject: "Математика", teacher: "@Fa_timkaaa", note: "" }
+
+                ]
+
+            },
+
+            saturday: {
+
+                dayName: "Суббота",
+
+                schedule: [
+
+                    { time: "15:00", subject: "Рисование", teacher: "@Umm_Huruera", note: "" },
+
+                    { time: "20:00", subject: "Математика", teacher: "@Fa_timkaaa", note: "" }
+
+                ]
+
+            },
+
+            sunday: {
+
+                dayName: "Воскресенье",
+
+                schedule: [
+
+                    { time: "11:00", subject: "Рукоделие по Клеткам", teacher: "@LOLA_ISLAMOV", note: "" },
+
+                    { time: "17:00", subject: "Чтение книг", teacher: "@Nazhm2", note: "" }
+
+                ]
+
+            }
+
+        };
+
+        // Функция для отображения расписания выбранного дня
+
+        function showSchedule(day) {
+
+            const dayData = scheduleData[day];
+
+            
+
+            // Обновляем заголовок
+
+            document.getElementById('current-day').textContent = dayData.dayName;
+
+            
+
+            // Получаем таблицу и очищаем ее
+
+            const table = document.getElementById('schedule-table');
+
+            table.innerHTML = '';
+
+            
+
+            // Создаем заголовок таблицы
+
+            const headerRow = document.createElement('tr');
+
+            headerRow.innerHTML = `
+
+                <th>Время</th>
+
+                <th>Преподаватель</th>
+
+                <th>Предмет / Занятие</th>
+
+            `;
+
+            table.appendChild(headerRow);
+
+            
+
+            // Добавляем строки с занятиями
+
+            dayData.schedule.forEach(item => {
+
+                const row = document.createElement('tr');
+
+                
+
+                // Форматируем время для отображения
+
+                const timeDisplay = item.time.length === 5 ? item.time : item.time;
+
+                
+
+                row.innerHTML = `
+
+                    <td class="time-cell">${timeDisplay}</td>
+
+                    <td class="teacher-cell">${item.teacher}</td>
+
+                    <td class="subject-cell">
+
+                        ${item.subject}
+
+                        ${item.note ? `<div class="note-badge">${item.note}</div>` : ''}
+
+                    </td>
+
+                `;
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+        
+
+        // Инициализация кнопок для выбора дня
+
+        document.querySelectorAll('.day-btn').forEach(button => {
+
+            button.addEventListener('click', function() {
+
+                // Удаляем активный класс у всех кнопок
+
+                document.querySelectorAll('.day-btn').forEach(btn => {
+
+                    btn.classList.remove('active');
+
+                });
+
+                
+
+                // Добавляем активный класс к нажатой кнопке
+
+                this.classList.add('active');
+
+                
+
+                // Показываем расписание для выбранного дня
+
+                const day = this.getAttribute('data-day');
+
+                showSchedule(day);
+
+            });
+
+        });
+
+        
+
+        // Показываем расписание понедельника при загрузке
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            showSchedule('monday');
+
+        });
+
+    </script>
+
+</body>
+
+</html>
+    
+  </body>
+  
+</html>
